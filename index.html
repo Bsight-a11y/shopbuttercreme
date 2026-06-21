@@ -527,6 +527,13 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
                  onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
     <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #1</p>
   </div>
+<!-- 스타일 2 -->
+  <div class="sleep-card" data-images='["/images/sleep2-1.jpg","/images/sleep2-2.jpg"]' data-index="0">
+    <img src="/images/sleep2-1.jpg" alt="Buttercreme Sleepwear Style 2"
+         style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
+         onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
+    <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #2</p>
+  </div>
 
 </div>    </div>
 </div>
