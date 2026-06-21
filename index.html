@@ -524,9 +524,7 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
   <div class="sleep-card" data-images='["/images/sleep1-1.jpg","/images/sleep1-2.jpg","/images/sleep1-3.jpg",/images/sleep1-4.jpg"]' data-index="0">
     <img src="/images/sleep1-1.jpg" alt="Buttercreme Sleepwear Style 1"
          style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
-         onmouseover="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images); this.dataset.original=this.src; this.src=imgs[1]||imgs[0];"
-         onmouseout="this.src=this.dataset.original;"
-         onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
+                 onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
     <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #1</p>
   </div>
 
