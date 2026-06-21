@@ -534,7 +534,13 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
          onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
     <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #2</p>
   </div>
-
+<!-- 스타일 3 -->
+  <div class="sleep-card" data-images='["/images/sleep3-1.jpg","/images/sleep3-2.jpg","/images/sleep3-3.jpg","/images/sleep3-4.jpg"]' data-index="0">
+    <img src="/images/sleep3-1.jpg" alt="Buttercreme Sleepwear Style 3"
+         style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
+         onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i];">
+    <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #3</p>
+  </div>
 </div>    </div>
 </div>
 
@@ -552,8 +558,21 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
        onclick="let c=this.closest('.dress-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
  <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #1</p> 
 </div>
+<!-- 스타일 2 -->
+  <div class="dress-card" data-images='["/images/dress2-1.jpg","/images/dress2-2.jpg","/images/dress2-3.jpg"]' data-index="0">
+    <img src="/images/dress2-1.jpg" alt="Buttercreme Dress Style 2"
+         style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
+         onclick="let c=this.closest('.dress-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i];">
+    <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #2</p>
+  </div>
 
-</div>
+  <!-- 스타일 3 -->
+  <div class="dress-card" data-images='["/images/dress3-1.jpg","/images/dress3-2.jpg","/images/dress3-3.jpg"]' data-index="0">
+    <img src="/images/dress3-1.jpg" alt="Buttercreme Dress Style 3"
+         style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
+         onclick="let c=this.closest('.dress-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i];">
+    <p style="text-align:center;margin-top:8px;font-weight:600;color:#1a1a1a;">Style #3</p>
+  </div></div>
 </div>
 
 
