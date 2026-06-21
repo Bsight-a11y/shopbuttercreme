@@ -521,7 +521,7 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 <div class="sleep-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
 
   <!-- 스타일 1 -->
-  <div class="sleep-card" data-images='["/images/sleep1-1.jpg","/images/sleep1-2.jpg","/images/sleep1-3.jpg",/images/sleep1-4.jpg"]' data-index="0">
+  <div class="sleep-card" data-images='["/images/sleep1-1.jpg","/images/sleep1-2.jpg","/images/sleep1-3.jpg","/images/sleep1-4.jpg"]' data-index="0">
     <img src="/images/sleep1-1.jpg" alt="Buttercreme Sleepwear Style 1"
          style="display:block;width:100%;height:auto;cursor:pointer;border-radius:8px;"
                  onclick="let c=this.closest('.sleep-card'), imgs=JSON.parse(c.dataset.images), i=(parseInt(c.dataset.index)+1)%imgs.length; c.dataset.index=i; this.src=imgs[i]; this.dataset.original=imgs[i];">
