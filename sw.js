@@ -1,6 +1,6 @@
 // sw.js — Buttercreme PWA Service Worker
 // 캐시 버전을 바꾸면 사용자 브라우저의 캐시가 자동 갱신됩니다.
-const CACHE_NAME = 'buttercreme-cache-v2';
+const CACHE_NAME = 'buttercreme-cache-v3';
 
 // 오프라인에서도 보여줄 핵심 파일들 (필요에 맞게 경로 수정하세요)
 const CORE_ASSETS = [
