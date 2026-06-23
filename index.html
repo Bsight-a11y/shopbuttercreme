@@ -462,7 +462,7 @@ function closePromo(claimed) {
   <div class="menu-overlay-inner">
     <a href="#" class="menu-item" data-modal="pajamaModal" onclick="return openModalFromMenu(this);">Sleepwear</a>
     <a href="#" class="menu-item" data-modal="dressModal2" onclick="return openModalFromMenu(this);">Dresses</a>
-    <a href="#" class="menu-item" data-modal="topsModal" onclick="return openModalFromMenu(this);">Tops</a>
+    <a href="#" class="menu-item" data-modal="topsModalV2" onclick="return openModalFromMenu(this);">Tops</a>
   </div>
 </div>
 
@@ -489,7 +489,7 @@ function openModalFromMenu(el) {
   <div class="intro-meta-row">
     <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
     <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
-    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
@@ -640,22 +640,11 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 </div>
 </div>
 
-<div class="modal-overlay" id="topsModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-overlay" id="topsModalV2" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('topsModal').classList.remove('open')">&times;</button>
+    <button class="modal-close" onclick="document.getElementById('topsModalV2').classList.remove('open')">&times;</button>
     <div class="tops-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
-      <div class="tops-card"><img src="/images/tops1.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops2.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops3.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops4.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops5.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops6.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops7.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops8.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops9.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops10.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops11.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/tops12.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+      <p style="text-align:center;width:100%;padding:40px 0;color:#888;">Tops — Coming Soon</p>
     </div>
   </div>
 </div>
