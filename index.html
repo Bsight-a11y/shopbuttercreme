@@ -83,28 +83,36 @@ nav{
 .hamburger-btn.open span:nth-child(2){opacity:0}
 .hamburger-btn.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 
-/* ── MENU OVERLAY ── */
+/* ── MENU OVERLAY (left sidebar) ── */
 .menu-overlay{
-  position:fixed;top:0;left:0;right:0;bottom:0;
+  position:fixed;top:0;left:0;bottom:0;
+  width:320px;max-width:80vw;
   background:var(--bg);
   color:var(--text);
   z-index:250;
-  transform:translateY(-100%);
+  transform:translateX(-100%);
   transition:transform .35s ease;
   overflow-y:auto;
+  box-shadow:4px 0 20px rgba(0,0,0,0.15);
 }
-.menu-overlay.open{transform:translateY(0)}
+.menu-overlay.open{transform:translateX(0)}
+.menu-backdrop{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.35);
+  z-index:240;
+  opacity:0;visibility:hidden;
+  transition:opacity .35s ease;
+}
+.menu-backdrop.open{opacity:1;visibility:visible}
 .menu-overlay-inner{
-  padding:150px 36px 60px;
-  max-width:600px;
-  margin:0 auto;
+  padding:130px 28px 60px;
 }
 .menu-item{
   display:block;
   font-family:var(--ff-sans);
-  font-size:28px;font-weight:600;letter-spacing:0.03em;
+  font-size:22px;font-weight:600;letter-spacing:0.03em;
   color:var(--text);text-decoration:none;text-transform:uppercase;
-  padding:22px 0;
+  padding:18px 0;
   border-bottom:1px solid rgba(14,14,12,0.15);
   transition:opacity .18s;
 }
@@ -448,6 +456,7 @@ function closePromo(claimed) {
   <div class="nav-right"></div>
 </nav>
 
+<div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-overlay-inner">
     <a href="#" class="menu-item" onclick="toggleMenu();document.getElementById('pajamaModal').classList.add('open');return false;">Sleepwear</a>
@@ -460,6 +469,7 @@ function closePromo(claimed) {
 function toggleMenu() {
   document.getElementById('hamburgerBtn').classList.toggle('open');
   document.getElementById('menuOverlay').classList.toggle('open');
+  document.getElementById('menuBackdrop').classList.toggle('open');
 }
 </script>
 
