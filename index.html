@@ -461,7 +461,7 @@ function closePromo(claimed) {
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-overlay-inner">
     <a href="#" class="menu-item" data-modal="pajamaModal" onclick="return openModalFromMenu(this);">Sleepwear</a>
-    <a href="#" class="menu-item" data-modal="dressModal" onclick="return openModalFromMenu(this);">Dresses</a>
+    <a href="#" class="menu-item" data-modal="dressModal2" onclick="return openModalFromMenu(this);">Dresses</a>
     <a href="#" class="menu-item" data-modal="topsModal" onclick="return openModalFromMenu(this);">Tops</a>
   </div>
 </div>
@@ -474,9 +474,6 @@ function toggleMenu() {
 }
 function openModalFromMenu(el) {
   var modalId = el.getAttribute('data-modal');
-  var clickedText = el.textContent;
-  alert('클릭한 글자: ' + clickedText + ' / 열릴 모달: ' + modalId);
-  el.style.background = 'rgba(14,14,12,0.15)';
   toggleMenu();
   document.getElementById(modalId).classList.add('open');
   return false;
@@ -490,9 +487,9 @@ function openModalFromMenu(el) {
 
 <section class="intro-section" id="access">
   <div class="intro-meta-row">
-    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
-    <button type="button" class="intro-tag-pill" data-modal="dressModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
-    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
+    <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
@@ -617,29 +614,29 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 </div>    </div>
 </div>
 
-<div class="modal-overlay" id="dressModal" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="modal-overlay" id="dressModal2" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('dressModal').classList.remove('open')">&times;</button>
+    <button class="modal-close" onclick="document.getElementById('dressModal2').classList.remove('open')">&times;</button>
 <div class="dress-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
-  <div class="dress-card"><img src="/images/dressA15.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA1.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA2.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA3.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA4.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA5.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA6.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA7.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA8.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA9.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA10.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA11.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA12.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA13.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA14.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA16.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA17.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA18.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/dressA19.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh15.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh1.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh2.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh3.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh4.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh5.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh6.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh7.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh8.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh9.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh10.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh11.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh12.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh13.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh14.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh16.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh17.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh18.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh19.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
 </div>
 </div>
 
