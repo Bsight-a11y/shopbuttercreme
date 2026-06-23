@@ -112,11 +112,12 @@ nav{
   font-family:var(--ff-sans);
   font-size:22px;font-weight:600;letter-spacing:0.03em;
   color:var(--text);text-decoration:none;text-transform:uppercase;
-  padding:18px 0;
+  padding:30px 4px;
   border-bottom:1px solid rgba(14,14,12,0.15);
-  transition:opacity .18s;
+  transition:opacity .18s, background .15s;
 }
 .menu-item:hover{opacity:.55}
+.menu-item:active{background:rgba(14,14,12,0.1);}
 
 /* ── HERO: photo only, clean, no overlay text cluttering it ── */
 .hero-full{
@@ -473,8 +474,11 @@ function toggleMenu() {
 }
 function openModalFromMenu(el) {
   var modalId = el.getAttribute('data-modal');
-  toggleMenu();
-  document.getElementById(modalId).classList.add('open');
+  el.style.background = 'rgba(14,14,12,0.15)';
+  setTimeout(function() {
+    toggleMenu();
+    document.getElementById(modalId).classList.add('open');
+  }, 120);
   return false;
 }
 </script>
