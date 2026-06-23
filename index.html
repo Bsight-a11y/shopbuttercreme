@@ -474,11 +474,11 @@ function toggleMenu() {
 }
 function openModalFromMenu(el) {
   var modalId = el.getAttribute('data-modal');
+  var clickedText = el.textContent;
+  alert('클릭한 글자: ' + clickedText + ' / 열릴 모달: ' + modalId);
   el.style.background = 'rgba(14,14,12,0.15)';
-  setTimeout(function() {
-    toggleMenu();
-    document.getElementById(modalId).classList.add('open');
-  }, 120);
+  toggleMenu();
+  document.getElementById(modalId).classList.add('open');
   return false;
 }
 </script>
@@ -490,9 +490,9 @@ function openModalFromMenu(el) {
 
 <section class="intro-section" id="access">
   <div class="intro-meta-row">
-    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
-    <button type="button" class="intro-tag-pill" data-modal="dressModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
-    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
+    <button type="button" class="intro-tag-pill" data-modal="dressModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="alert('클릭: '+this.textContent+' / '+this.dataset.modal);document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
