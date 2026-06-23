@@ -459,9 +459,9 @@ function closePromo(claimed) {
 <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-overlay-inner">
-    <a href="#" class="menu-item" onclick="toggleMenu();document.getElementById('pajamaModal').classList.add('open');return false;">Sleepwear</a>
-    <a href="#" class="menu-item" onclick="toggleMenu();document.getElementById('dressModal').classList.add('open');return false;">Dresses</a>
-    <a href="#" class="menu-item" onclick="toggleMenu();document.getElementById('topsModal').classList.add('open');return false;">Tops</a>
+    <a href="#" class="menu-item" data-modal="pajamaModal" onclick="return openModalFromMenu(this);">Sleepwear</a>
+    <a href="#" class="menu-item" data-modal="dressModal" onclick="return openModalFromMenu(this);">Dresses</a>
+    <a href="#" class="menu-item" data-modal="topsModal" onclick="return openModalFromMenu(this);">Tops</a>
   </div>
 </div>
 
@@ -470,6 +470,12 @@ function toggleMenu() {
   document.getElementById('hamburgerBtn').classList.toggle('open');
   document.getElementById('menuOverlay').classList.toggle('open');
   document.getElementById('menuBackdrop').classList.toggle('open');
+}
+function openModalFromMenu(el) {
+  var modalId = el.getAttribute('data-modal');
+  toggleMenu();
+  document.getElementById(modalId).classList.add('open');
+  return false;
 }
 </script>
 
@@ -480,9 +486,9 @@ function toggleMenu() {
 
 <section class="intro-section" id="access">
   <div class="intro-meta-row">
-    <button type="button" class="intro-tag-pill" onclick="document.getElementById('pajamaModal').classList.add('open')">Sleepwear</button>
-    <button type="button" class="intro-tag-pill" onclick="document.getElementById('dressModal').classList.add('open')">Dresses</button>
-    <button type="button" class="intro-tag-pill" onclick="document.getElementById('topsModal').classList.add('open')">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
+    <button type="button" class="intro-tag-pill" data-modal="dressModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
@@ -610,6 +616,7 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 <div class="modal-overlay" id="dressModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('dressModal').classList.remove('open')">&times;</button>
+<p style="text-align:center;font-size:24px;font-weight:900;color:red;">[DRESS MODAL]</p>
 <div class="dress-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
 
   <!-- 스타일 1 -->
@@ -641,6 +648,7 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 <div class="modal-overlay" id="topsModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('topsModal').classList.remove('open')">&times;</button>
+    <p style="text-align:center;font-size:24px;font-weight:900;color:blue;">[TOPS MODAL]</p>
     <div class="tops-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
       <div class="tops-card"><img src="/images/tops1.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
       <div class="tops-card"><img src="/images/tops2.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
