@@ -110,14 +110,18 @@ nav{
 .menu-item{
   display:block;
   font-family:var(--ff-sans);
-  font-size:22px;font-weight:600;letter-spacing:0.03em;
+  font-size:20px;font-weight:600;letter-spacing:0.03em;
   color:var(--text);text-decoration:none;text-transform:uppercase;
-  padding:30px 4px;
-  border-bottom:1px solid rgba(14,14,12,0.15);
+  text-align:center;
+  padding:24px 4px;
+  margin-bottom:24px;
+  background:rgba(255,255,255,0.5);
+  border:1px solid rgba(14,14,12,0.2);
+  border-radius:12px;
   transition:opacity .18s, background .15s;
 }
-.menu-item:hover{opacity:.55}
-.menu-item:active{background:rgba(14,14,12,0.1);}
+.menu-item:hover{opacity:.7}
+.menu-item:active{background:rgba(14,14,12,0.15);}
 
 /* ── HERO: photo only, clean, no overlay text cluttering it ── */
 .hero-full{
@@ -393,8 +397,8 @@ footer{
   .hero-full{min-height:100vh}
   .hero-full img{height:auto;width:100%;max-height:none}
   .intro-section{padding:64px 20px 52px;gap:26px}
-  .intro-meta-row{gap:10px}
-  .intro-tag-pill{font-size:14px;padding:13px 24px}
+  .intro-meta-row{gap:16px;flex-direction:column;align-items:stretch}
+  .intro-tag-pill{font-size:14px;padding:16px 24px}
   .intro-sub{font-size:23px}
   .intro-cta{font-size:17px;padding:15px 30px}
   .action-strip{grid-template-columns:1fr}
@@ -472,10 +476,16 @@ function toggleMenu() {
   document.getElementById('menuOverlay').classList.toggle('open');
   document.getElementById('menuBackdrop').classList.toggle('open');
 }
+function openOnlyModal(modalId) {
+  document.querySelectorAll('.modal-overlay').forEach(function(m) {
+    m.classList.remove('open');
+  });
+  document.getElementById(modalId).classList.add('open');
+}
 function openModalFromMenu(el) {
   var modalId = el.getAttribute('data-modal');
   toggleMenu();
-  document.getElementById(modalId).classList.add('open');
+  openOnlyModal(modalId);
   return false;
 }
 </script>
@@ -487,9 +497,9 @@ function openModalFromMenu(el) {
 
 <section class="intro-section" id="access">
   <div class="intro-meta-row">
-    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Sleepwear</button>
-    <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Dresses</button>
-    <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="document.getElementById(this.dataset.modal).classList.add('open')">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="openOnlyModal(this.dataset.modal)">Sleepwear</button>
+    <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="openOnlyModal(this.dataset.modal)">Dresses</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="openOnlyModal(this.dataset.modal)">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
