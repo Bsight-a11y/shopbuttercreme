@@ -499,7 +499,7 @@ function openModalFromMenu(el) {
   <div class="intro-meta-row">
     <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="openOnlyModal(this.dataset.modal)">Sleepwear</button>
     <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="openOnlyModal(this.dataset.modal)">Dresses</button>
-    <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="openOnlyModal(this.dataset.modal)">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="alert('1: 클릭됨'); var el=document.getElementById(this.dataset.modal); alert('2: element found = '+(el!==null)); openOnlyModal(this.dataset.modal); alert('3: open 클래스 추가됨 = '+el.classList.contains('open'));">Tops</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
