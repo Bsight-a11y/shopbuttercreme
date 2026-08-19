@@ -312,6 +312,39 @@ nav{
   transition:background .2s;
 }
 .modal-close:hover{background:var(--white)}
+
+/* ── LIGHTBOX (image zoom) ── */
+.lightbox-overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,0.92);
+  display:none;
+  align-items:center;justify-content:center;
+  padding:30px;
+  cursor:zoom-out;
+}
+.lightbox-overlay.open{display:flex}
+.lightbox-overlay img{
+  display:block;
+  max-width:100%;max-height:90vh;
+  width:auto;height:auto;
+  border-radius:4px;
+  cursor:default;
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+.lightbox-close{
+  position:fixed;top:20px;right:24px;z-index:5;
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.92);
+  border:none;border-radius:50%;
+  font-size:22px;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);
+  transition:background .2s;
+}
+.lightbox-close:hover{background:var(--white)}
+.dress-card img,.tops-card img{cursor:zoom-in}
+
 .intro-sub{
   font-family:var(--ff-sans);
   font-size:32px;font-weight:500;font-style:normal;
@@ -488,6 +521,16 @@ function openModalFromMenu(el) {
   openOnlyModal(modalId);
   return false;
 }
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxOverlay').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 
 <section class="hero-full">
@@ -628,25 +671,25 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('dressModal2').classList.remove('open')">&times;</button>
 <div class="dress-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
-  <div class="dress-card"><img src="/images/drsFresh1.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh2.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh4.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh6.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh7.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh12.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh14.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh18.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh19.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh15.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh3.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh5.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh8.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh9.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh10.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh11.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh13.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh16.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-  <div class="dress-card"><img src="/images/drsFresh17.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+  <div class="dress-card"><img src="/images/drsFresh1.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh2.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh4.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh6.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh7.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh12.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh14.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh18.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh19.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh15.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh3.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh5.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh8.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh9.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh10.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh11.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh13.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh16.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+  <div class="dress-card"><img src="/images/drsFresh17.jpg" alt="Buttercreme Dress Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
 </div>
 </div>
 </div>
@@ -654,20 +697,25 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('topsModalV2').classList.remove('open')">&times;</button>
     <div class="tops-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
-      <div class="tops-card"><img src="/images/topFresh3.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh4.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh8.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh10.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh1.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh2.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh5.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh6.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh7.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh9.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh11.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
-      <div class="tops-card"><img src="/images/topFresh12.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;"></div>
+      <div class="tops-card"><img src="/images/topFresh3.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh4.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh8.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh10.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh1.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh2.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh5.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh6.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh7.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh9.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh11.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+      <div class="tops-card"><img src="/images/topFresh12.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
     </div>
   </div>
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">&times;</button>
+  <img id="lightboxImg" src="" alt="Buttercreme enlarged view">
 </div>
 
 
