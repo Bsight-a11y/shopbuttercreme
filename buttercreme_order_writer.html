@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Buttercreme — Booth Order Writer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<style>
+  :root{
+    --cream:#F6F0E4;
+    --cream-deep:#EFE7D8;
+    --ink:#2B241E;
+    --plum:#6E2F3D;
+    --plum-deep:#521F2B;
+    --sage:#8FA07E;
+    --gold:#C9A660;
+    --line:#DCD2BC;
+    --white:#FFFDF8;
+    --error:#A8402F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:90px;
+  }
+  .brandbar{
+    padding:22px 20px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--cream);
+  }
+  .brandbar .mark{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:26px;
+    color:var(--plum-deep);
+    letter-spacing:0.01em;
+  }
+  .brandbar .sub{
+    font-family:'DM Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#8a7f6c;
+    margin-top:2px;
+  }
+  nav{
+    display:flex;
+    position:sticky;
+    top:0;
+    background:var(--cream);
+    z-index:20;
+    border-bottom:1px solid var(--line);
+  }
+  nav button{
+    flex:1;
+    padding:14px 6px;
+    background:none;
+    border:none;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:#9a8f7a;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  nav button.active{
+    color:var(--plum-deep);
+    border-bottom:2px solid var(--plum);
+  }
+  main{padding:18px 16px 40px; max-width:640px; margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:20px;
+    margin:6px 0 14px;
+    color:var(--plum-deep);
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:14px;
+  }
+  label{
+    display:block;
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:#8a7f6c;
+    margin:10px 0 4px;
+  }
+  label:first-child{margin-top:0;}
+  input[type=text], input[type=number], textarea, select{
+    width:100%;
+    padding:10px 11px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    color:var(--ink);
+  }
+  textarea{resize:vertical; min-height:64px; font-family:'DM Mono',monospace; font-size:12.5px;}
+  .row{display:flex; gap:10px;}
+  .row > *{flex:1;}
+  .btn{
+    display:inline-block;
+    width:100%;
+    padding:12px 14px;
+    background:var(--plum);
+    color:var(--white);
+    border:none;
+    border-radius:7px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    margin-top:12px;
+    text-align:center;
+  }
+  .btn:active{background:var(--plum-deep);}
+  .btn.secondary{
+    background:transparent;
+    color:var(--plum);
+    border:1px solid var(--plum);
+  }
+  .btn.ghost{
+    background:transparent;
+    color:#8a7f6c;
+    border:1px solid var(--line);
+  }
+  .btn.small{width:auto; padding:8px 12px; font-size:12px; margin-top:0;}
+  .btn.danger{color:var(--error); border:1px solid var(--error); background:transparent;}
+  .stylecard{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px;
+    margin-bottom:8px;
+    background:var(--white);
+  }
+  .stylecard .qrmini{width:46px; height:46px; flex-shrink:0;}
+  .stylecard .thumb{width:46px; height:46px; flex-shrink:0; border-radius:6px; object-fit:cover; border:1px solid var(--line);}
+  .stylecard .info{flex:1; min-width:0;}
+  .stylecard .sty{font-family:'DM Mono',monospace; font-size:12px; color:var(--plum); font-weight:500;}
+  .stylecard .nm{font-size:14px; font-weight:600; margin:1px 0;}
+  .stylecard .meta{font-size:11.5px; color:#8a7f6c;}
+  .stylecard .actions{display:flex; flex-direction:column; gap:5px;}
+  .empty{
+    text-align:center;
+    padding:36px 16px;
+    color:#a89d86;
+    font-size:13.5px;
+  }
+  .empty .big{font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:#c2b8a1; display:block; margin-bottom:6px;}
+
+  /* Tag print cards */
+  #tagPrintArea{display:none;}
+  .tag{
+    width:220px;
+    border:1.5px dashed var(--plum);
+    border-radius:10px;
+    padding:12px;
+    position:relative;
+    display:inline-block;
+    margin:8px;
+    background:var(--white);
+    vertical-align:top;
+  }
+  .tag .punch{
+    width:14px; height:14px;
+    border:1.5px solid var(--plum);
+    border-radius:50%;
+    position:absolute;
+    top:10px; left:10px;
+    background:var(--cream);
+  }
+  .tag .thumb{width:100%; height:90px; object-fit:cover; border-radius:6px; margin-top:4px;}
+  .tag .qrbox{margin:6px auto 8px; width:90px; height:90px;}
+  .tag .tstyle{font-family:'DM Mono',monospace; font-size:12px; text-align:center; color:var(--plum-deep); font-weight:500;}
+  .tag .tname{font-family:'Fraunces',serif; font-size:14px; text-align:center; margin:2px 0 4px;}
+  .tag .tprice{font-family:'DM Mono',monospace; font-size:15px; text-align:center; font-weight:700; color:var(--ink);}
+  .tag .tmeta{font-size:9.5px; text-align:center; color:#8a7f6c; margin-top:3px;}
+
+  /* Purchase order print document */
+  .po-doc{
+    width:680px; margin:0 auto; padding:30px 36px;
+    font-family:'Inter',sans-serif; color:#1c1712; background:#fff;
+  }
+  .po-doc .po-top{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--plum); padding-bottom:14px; margin-bottom:18px;}
+  .po-doc .po-brand{font-family:'Fraunces',serif; font-style:italic; font-weight:600; font-size:26px; color:var(--plum-deep);}
+  .po-doc .po-co-detail{font-size:11.5px; color:#4a4136; margin-top:4px; white-space:pre-line;}
+  .po-doc .po-title{text-align:right;}
+  .po-doc .po-title .t{font-family:'Fraunces',serif; font-size:20px; font-weight:600;}
+  .po-doc .po-title .n{font-family:'DM Mono',monospace; font-size:12.5px; margin-top:2px;}
+  .po-doc .po-title .d{font-size:11.5px; color:#4a4136; margin-top:2px;}
+  .po-doc .po-parties{display:flex; gap:24px; margin-bottom:20px;}
+  .po-doc .po-party{flex:1;}
+  .po-doc .po-party h4{font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:#8a7f6c; margin:0 0 5px;}
+  .po-doc .po-party div{font-size:12.5px; line-height:1.5; white-space:pre-line;}
+  .po-doc table{width:100%; border-collapse:collapse; margin-bottom:16px;}
+  .po-doc th{font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; text-align:left; color:#8a7f6c; border-bottom:1.5px solid var(--plum); padding:6px 6px;}
+  .po-doc td{font-size:12.5px; padding:7px 6px; border-bottom:1px solid var(--line);}
+  .po-doc td.num, .po-doc th.num{text-align:right;}
+  .po-doc .po-totals{display:flex; justify-content:flex-end; margin-bottom:20px;}
+  .po-doc .po-totals .box{width:220px;}
+  .po-doc .po-totals .row2{display:flex; justify-content:space-between; padding:5px 0; font-size:13px;}
+  .po-doc .po-totals .row2.grand{border-top:1.5px solid var(--plum); font-family:'Fraunces',serif; font-weight:600; font-size:17px; color:var(--plum-deep); margin-top:4px; padding-top:8px;}
+  .po-doc .po-terms{font-size:12px; color:#4a4136; border-top:1px solid var(--line); padding-top:12px;}
+  .po-doc .po-terms b{color:#1c1712;}
+
+  /* Scan view */
+  #reader{
+    width:100%;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    margin-bottom:10px;
+  }
+  .scanhint{font-size:12.5px; color:#8a7f6c; text-align:center; margin-bottom:10px;}
+  .scanresult{
+    border:1px solid var(--sage);
+    background:#F3F6EF;
+    border-radius:9px;
+    padding:14px;
+    margin-bottom:14px;
+  }
+  .scanresult .sty{font-family:'DM Mono',monospace; color:var(--plum); font-size:12px;}
+  .scanresult .nm{font-family:'Fraunces',serif; font-size:18px; margin:2px 0 8px;}
+  .scanresult .thumb{width:100%; max-width:220px; height:160px; object-fit:cover; border-radius:8px; display:block; margin:0 auto 10px; border:1px solid var(--line);}
+  .qtyrow{display:flex; align-items:center; gap:10px; margin-top:8px;}
+  .qtyrow button{
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--plum); background:var(--white); color:var(--plum);
+    font-size:18px; font-weight:700; cursor:pointer;
+  }
+  .qtyrow input{text-align:center; width:60px;}
+
+  .orderline{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid var(--line); gap:8px;
+  }
+  .orderline .l-thumb{width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--line); flex-shrink:0;}
+  .orderline .l-main{flex:1; min-width:0;}
+  .orderline .l-sty{font-family:'DM Mono',monospace; font-size:11px; color:var(--plum);}
+  .orderline .l-nm{font-size:13.5px; font-weight:600;}
+  .orderline .l-detail{font-size:11.5px; color:#8a7f6c;}
+  .orderline .l-amt{font-family:'DM Mono',monospace; font-weight:700; font-size:14px; white-space:nowrap;}
+  .orderline .l-rm{background:none; border:none; color:var(--error); font-size:18px; cursor:pointer; padding:0 4px;}
+  .totalrow{display:flex; justify-content:space-between; padding:14px 0 4px; font-family:'Fraunces',serif; font-size:19px; font-weight:600; color:var(--plum-deep);}
+
+  .banner{
+    padding:9px 12px; border-radius:7px; font-size:12.5px; margin-bottom:12px;
+  }
+  .banner.err{background:#FBEAE6; color:var(--error); border:1px solid #E8C3B9;}
+  .banner.ok{background:#EEF3E9; color:#4E6640; border:1px solid #C9D9BC;}
+
+  .pastorder{
+    border:1px solid var(--line); border-radius:9px; padding:12px 14px; margin-bottom:10px; background:var(--white);
+    cursor:pointer;
+  }
+  .pastorder .top{display:flex; justify-content:space-between; align-items:baseline;}
+  .pastorder .buyer{font-family:'Fraunces',serif; font-size:16px; font-weight:600;}
+  .pastorder .amt{font-family:'DM Mono',monospace; font-weight:700;}
+  .pastorder .date{font-size:11px; color:#8a7f6c; margin-top:2px;}
+
+  @media print{
+    body *{visibility:hidden;}
+    #tagPrintArea, #tagPrintArea *{visibility:visible;}
+    #tagPrintArea{display:block !important; position:absolute; top:0; left:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brandbar">
+  <div class="mark">Buttercreme</div>
+  <div class="sub">Booth Order Writer</div>
+</div>
+
+<nav>
+  <button class="tab active" data-view="tags">Tags</button>
+  <button class="tab" data-view="scan">Scan & Order</button>
+  <button class="tab" data-view="orders">Orders</button>
+</nav>
+
+<main>
+
+  <!-- TAGS VIEW -->
+  <div class="view active" id="view-tags">
+    <h2>Your company info <span style="font-size:11px; font-weight:400; color:#8a7f6c;">(for purchase orders)</span></h2>
+    <div class="card">
+      <label>Company name</label>
+      <input type="text" id="f-co-name" placeholder="Pearls & Peach, Inc. (Buttercreme)">
+      <label>Address</label>
+      <textarea id="f-co-address" placeholder="Street, City, State, ZIP" style="font-family:'Inter',sans-serif; min-height:44px;"></textarea>
+      <div class="row">
+        <div><label>Phone</label><input type="text" id="f-co-phone" placeholder="(555) 555-5555"></div>
+        <div><label>Email</label><input type="text" id="f-co-email" placeholder="info@shopbuttercreme.com"></div>
+      </div>
+      <label>Website</label>
+      <input type="text" id="f-co-website" placeholder="www.shopbuttercreme.com">
+      <button class="btn secondary" id="btn-save-company">Save company info</button>
+      <div id="banner-company"></div>
+    </div>
+
+    <h2>Add a style</h2>
+    <div class="card">
+      <label>Style number</label>
+      <input type="text" id="f-style" placeholder="e.g. BK014">
+      <label>Style name</label>
+      <input type="text" id="f-name" placeholder="e.g. Cheetah Palm Knit Top">
+      <div class="row">
+        <div>
+          <label>Wholesale price ($)</label>
+          <input type="number" id="f-price" placeholder="42" step="0.01">
+        </div>
+        <div>
+          <label>Fabric</label>
+          <input type="text" id="f-fabric" placeholder="Cotton knit">
+        </div>
+      </div>
+      <label>Colors (comma separated)</label>
+      <input type="text" id="f-colors" placeholder="Sage/Pink, Cream/Blush">
+      <label>Photo (optional)</label>
+      <input type="file" accept="image/*" id="f-photo">
+      <div id="photoPreviewWrap" style="display:none; margin-top:8px;">
+        <img id="photoPreview" style="width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid var(--line);">
+        <button class="btn ghost small" id="btn-clear-photo" type="button" style="margin-left:8px;">Remove photo</button>
+      </div>
+      <button class="btn" id="btn-add-style">Add style & generate tag</button>
+    </div>
+
+    <div id="bulkToggle" style="text-align:center; margin:-4px 0 14px;">
+      <button class="btn ghost small" id="btn-show-bulk">+ Paste multiple styles at once</button>
+    </div>
+    <div class="card" id="bulkCard" style="display:none;">
+      <label>One style per line: style, name, price, fabric, colors(;-separated)</label>
+      <textarea id="f-bulk" placeholder="BK014, Cheetah Palm Knit Top, 42, Cotton knit, Sage/Pink;Cream/Blush"></textarea>
+      <button class="btn secondary" id="btn-add-bulk">Add all lines</button>
+    </div>
+
+    <h2>Catalog (<span id="catCount">0</span>)</h2>
+    <div id="banner-tags"></div>
+    <div id="catalogList"></div>
+
+    <button class="btn" id="btn-print-tags" style="margin-top:6px;">Print all tags</button>
+  </div>
+
+  <!-- SCAN VIEW -->
+  <div class="view" id="view-scan">
+    <h2>Current buyer</h2>
+    <div class="card">
+      <label>Buyer / retailer name</label>
+      <input type="text" id="f-buyer" placeholder="e.g. Ironwood Country Club">
+      <label>Contact name</label>
+      <input type="text" id="f-contact" placeholder="e.g. Jane Smith">
+      <div class="row">
+        <div>
+          <label>Phone</label>
+          <input type="text" id="f-phone" placeholder="(555) 555-5555">
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="text" id="f-email" placeholder="jane@store.com">
+        </div>
+      </div>
+      <label>Billing address</label>
+      <textarea id="f-billing" placeholder="Street, City, State, ZIP" style="font-family:'Inter',sans-serif; min-height:50px;"></textarea>
+      <label style="display:flex; align-items:center; gap:7px; text-transform:none; font-size:13px; font-weight:500; color:var(--ink);">
+        <input type="checkbox" id="f-ship-same" style="width:auto;"> Shipping same as billing
+      </label>
+      <div id="shippingWrap">
+        <label>Shipping address</label>
+        <textarea id="f-shipping" placeholder="Street, City, State, ZIP" style="font-family:'Inter',sans-serif; min-height:50px;"></textarea>
+      </div>
+      <label>Payment method</label>
+      <select id="f-paymethod">
+        <option value="">— Select —</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Venmo">Venmo</option>
+        <option value="Zelle">Zelle</option>
+        <option value="Wire Transfer">Wire Transfer</option>
+        <option value="Check">Check</option>
+        <option value="Other">Other</option>
+      </select>
+      <div id="paydetailWrap"></div>
+      <label>Payment terms</label>
+      <input type="text" id="f-terms" placeholder="e.g. Net 30, 50% deposit / net 30">
+    </div>
+
+    <h2>Scan a tag</h2>
+    <div id="banner-scan"></div>
+    <div id="reader"></div>
+    <div class="scanhint" id="scanHint">Tap start, then point the camera at a style's QR tag.</div>
+    <button class="btn secondary" id="btn-scan-toggle">Start camera</button>
+
+    <div style="text-align:center; margin:14px 0 4px;">
+      <button class="btn ghost small" id="btn-manual-toggle">or pick a style manually</button>
+    </div>
+    <div class="card" id="manualCard" style="display:none;">
+      <label>Style</label>
+      <select id="f-manual-style"></select>
+      <button class="btn secondary" id="btn-manual-pick">Use this style</button>
+    </div>
+
+    <div id="scanResultArea"></div>
+
+    <h2>Order so far</h2>
+    <div class="card" id="orderCard">
+      <div id="orderLines"></div>
+      <div class="totalrow"><span>Total</span><span id="orderTotal">$0.00</span></div>
+    </div>
+    <button class="btn" id="btn-finish-order">Finish & save order</button>
+    <button class="btn ghost" id="btn-clear-order" style="margin-top:8px;">Clear current order</button>
+  </div>
+
+  <!-- ORDERS VIEW -->
+  <div class="view" id="view-orders">
+    <h2>Saved orders</h2>
+    <div id="ordersList"></div>
+    <button class="btn secondary" id="btn-export-csv">Export all as CSV</button>
+  </div>
+
+</main>
+
+<div id="tagPrintArea"></div>
+
+<script>
+(function(){
+
+// Storage compatibility shim: use Claude's window.storage when running as a
+// Claude artifact; fall back to the phone's own browser storage (localStorage)
+// when this file is opened directly in Safari (e.g. downloaded, or "Add to
+// Home Screen"). This lets camera scanning work in Safari while keeping data
+// saved either way.
+if(!window.storage){
+  window.storage = {
+    get: async (key)=>{
+      const v = localStorage.getItem('bcorder_'+key);
+      return v===null ? null : {key, value:v};
+    },
+    set: async (key, value)=>{
+      localStorage.setItem('bcorder_'+key, value);
+      return {key, value};
+    },
+    delete: async (key)=>{
+      localStorage.removeItem('bcorder_'+key);
+      return {key, deleted:true};
+    },
+    list: async (prefix)=>{
+      const keys = Object.keys(localStorage)
+        .filter(k=>k.startsWith('bcorder_'))
+        .map(k=>k.slice('bcorder_'.length))
+        .filter(k=>!prefix || k.startsWith(prefix));
+      return {keys, prefix};
+    }
+  };
+}
+
+let catalog = [];       // {style,name,price,fabric,colors:[]}
+let currentOrder = { buyer:"", items:[] }; // items: {style,name,price,color,qty}
+let savedOrders = [];
+let pendingScanStyle = null;
+let html5Qr = null;
+let scanning = false;
+let pendingPhoto = null; // dataURL, resized
+
+function resizeImage(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const maxW = 240;
+        const scale = Math.min(1, maxW / img.width);
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.62));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('f-photo').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    pendingPhoto = await resizeImage(file);
+    document.getElementById('photoPreview').src = pendingPhoto;
+    document.getElementById('photoPreviewWrap').style.display = 'block';
+  }catch(err){
+    flash('tags', "Couldn't read that photo — try another.", true);
+  }
+});
+document.getElementById('btn-clear-photo').addEventListener('click', ()=>{
+  pendingPhoto = null;
+  document.getElementById('f-photo').value = "";
+  document.getElementById('photoPreviewWrap').style.display = 'none';
+});
+
+// ---------- storage helpers ----------
+async function loadAll(){
+  try{ const r = await window.storage.get('catalog'); catalog = r ? JSON.parse(r.value) : []; }catch(e){ catalog = []; }
+  try{ const r = await window.storage.get('current_order'); currentOrder = r ? JSON.parse(r.value) : {buyer:"",items:[]}; }catch(e){ currentOrder = {buyer:"",items:[]}; }
+  try{ const r = await window.storage.get('orders'); savedOrders = r ? JSON.parse(r.value) : []; }catch(e){ savedOrders = []; }
+  renderCatalog(); renderManualSelect(); renderOrder(); renderOrders();
+  populateBuyerFields();
+  populateCompanyFields(await loadCompanyInfo());
+}
+async function saveCatalog(){ try{ await window.storage.set('catalog', JSON.stringify(catalog), false); }catch(e){ flash('tags','Could not save catalog — try again.', true); } }
+async function saveCurrentOrder(){ try{ await window.storage.set('current_order', JSON.stringify(currentOrder), false); }catch(e){ flash('scan','Could not save order — try again.', true); } }
+async function saveOrders(){ try{ await window.storage.set('orders', JSON.stringify(savedOrders), false); }catch(e){ flash('orders','Could not save — try again.', true); } }
+
+function flash(view, msg, isErr){
+  const el = document.getElementById('banner-'+view);
+  el.innerHTML = `<div class="banner ${isErr?'err':'ok'}">${msg}</div>`;
+  setTimeout(()=>{ el.innerHTML=""; }, 3500);
+}
+
+// ---------- nav ----------
+document.querySelectorAll('nav .tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav .tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    if(btn.dataset.view !== 'scan' && scanning){ stopScanner(); }
+  });
+});
+
+// ---------- catalog ----------
+function renderCatalog(){
+  document.getElementById('catCount').textContent = catalog.length;
+  const list = document.getElementById('catalogList');
+  if(catalog.length===0){
+    list.innerHTML = `<div class="empty"><span class="big">No styles yet</span>Add your first style above to generate its tag.</div>`;
+    return;
+  }
+  list.innerHTML = "";
+  catalog.forEach((s, idx)=>{
+    const row = document.createElement('div');
+    row.className = 'stylecard';
+    const qrId = 'qrmini-'+idx;
+    const thumbHtml = s.photo ? `<img class="thumb" src="${s.photo}">` : `<div class="qrmini" id="${qrId}"></div>`;
+    row.innerHTML = `
+      ${thumbHtml}
+      <div class="info">
+        <div class="sty">${escapeHtml(s.style)}</div>
+        <div class="nm">${escapeHtml(s.name)}</div>
+        <div class="meta">$${Number(s.price).toFixed(2)} · ${escapeHtml(s.fabric||'')} · ${s.colors.length} color${s.colors.length!==1?'s':''}</div>
+      </div>
+      <div class="actions">
+        <button class="btn danger small" data-del="${idx}">Delete</button>
+      </div>`;
+    list.appendChild(row);
+    if(!s.photo){
+      new QRCode(document.getElementById(qrId), {text: encodeStyle(s), width:46, height:46, colorDark:"#521F2B", colorLight:"#FFFDF8"});
+    }
+  });
+  list.querySelectorAll('[data-del]').forEach(b=>{
+    b.addEventListener('click', async ()=>{
+      const i = parseInt(b.dataset.del);
+      if(confirm(`Delete ${catalog[i].style} — ${catalog[i].name}?`)){
+        catalog.splice(i,1);
+        await saveCatalog();
+        renderCatalog(); renderManualSelect();
+      }
+    });
+  });
+}
+
+function encodeStyle(s){
+  return JSON.stringify({s:s.style, n:s.name, p:Number(s.price), f:s.fabric||"", c:s.colors});
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div'); d.textContent = str==null?"":String(str); return d.innerHTML;
+}
+
+document.getElementById('btn-add-style').addEventListener('click', async ()=>{
+  const style = document.getElementById('f-style').value.trim();
+  const name = document.getElementById('f-name').value.trim();
+  const price = parseFloat(document.getElementById('f-price').value);
+  const fabric = document.getElementById('f-fabric').value.trim();
+  const colorsRaw = document.getElementById('f-colors').value.trim();
+  if(!style || !name || isNaN(price) || !colorsRaw){
+    flash('tags','Fill in style, name, price, and at least one color.', true); return;
+  }
+  const colors = colorsRaw.split(',').map(c=>c.trim()).filter(Boolean);
+  catalog.push({style, name, price, fabric, colors, photo: pendingPhoto || null});
+  await saveCatalog();
+  ['f-style','f-name','f-price','f-fabric','f-colors'].forEach(id=>document.getElementById(id).value="");
+  document.getElementById('f-photo').value = "";
+  document.getElementById('photoPreviewWrap').style.display = 'none';
+  pendingPhoto = null;
+  renderCatalog(); renderManualSelect();
+  flash('tags', `${style} added.`, false);
+});
+
+document.getElementById('btn-show-bulk').addEventListener('click', ()=>{
+  const c = document.getElementById('bulkCard');
+  c.style.display = c.style.display==='none' ? 'block' : 'none';
+});
+document.getElementById('btn-add-bulk').addEventListener('click', async ()=>{
+  const lines = document.getElementById('f-bulk').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  let added = 0;
+  lines.forEach(line=>{
+    const parts = line.split(',').map(p=>p.trim());
+    if(parts.length < 5) return;
+    const [style, name, priceStr, fabric, ...rest] = parts;
+    const price = parseFloat(priceStr);
+    const colorsStr = rest.join(',');
+    const colors = colorsStr.split(';').map(c=>c.trim()).filter(Boolean);
+    if(!style || !name || isNaN(price) || colors.length===0) return;
+    catalog.push({style, name, price, fabric, colors});
+    added++;
+  });
+  if(added>0){
+    await saveCatalog();
+    document.getElementById('f-bulk').value = "";
+    renderCatalog(); renderManualSelect();
+    flash('tags', `${added} style${added!==1?'s':''} added.`, false);
+  } else {
+    flash('tags', 'No valid lines found — check the format.', true);
+  }
+});
+
+// ---------- print tags ----------
+document.getElementById('btn-print-tags').addEventListener('click', ()=>{
+  if(catalog.length===0){ flash('tags','Add styles before printing tags.', true); return; }
+  const area = document.getElementById('tagPrintArea');
+  area.innerHTML = "";
+  catalog.forEach((s, idx)=>{
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    const qrId = 'qrprint-'+idx;
+    const photoHtml = s.photo ? `<img class="thumb" src="${s.photo}">` : '';
+    tag.innerHTML = `
+      <div class="punch"></div>
+      ${photoHtml}
+      <div class="qrbox" id="${qrId}"></div>
+      <div class="tstyle">${escapeHtml(s.style)}</div>
+      <div class="tname">${escapeHtml(s.name)}</div>
+      <div class="tprice">$${Number(s.price).toFixed(2)}</div>
+      <div class="tmeta">${escapeHtml(s.fabric||'')}</div>
+      <div class="tmeta">${s.colors.map(escapeHtml).join(' · ')}</div>`;
+    area.appendChild(tag);
+  });
+  catalog.forEach((s, idx)=>{
+    new QRCode(document.getElementById('qrprint-'+idx), {text: encodeStyle(s), width:120, height:120, colorDark:"#521F2B", colorLight:"#FFFDF8"});
+  });
+  setTimeout(()=>window.print(), 300);
+});
+
+// ---------- buyer & payment fields ----------
+function renderPayDetail(method){
+  const wrap = document.getElementById('paydetailWrap');
+  if(method === 'Credit Card'){
+    wrap.innerHTML = `
+      <div class="row">
+        <div><label>Card type</label>
+          <select id="f-cardtype">
+            <option value="">—</option><option>Visa</option><option>Mastercard</option><option>Amex</option><option>Discover</option>
+          </select>
+        </div>
+        <div><label>Last 4 digits</label>
+          <input type="text" id="f-card-last4" maxlength="4" placeholder="1234">
+        </div>
+      </div>
+      <div class="banner ok" style="margin-top:8px;">For security, only the last 4 digits are stored here — run the actual charge on your card reader / payment app, not from this form.</div>`;
+  } else if(method === 'Venmo' || method === 'Zelle'){
+    wrap.innerHTML = `<label>${method} handle / phone / email</label><input type="text" id="f-pay-handle" placeholder="@handle or phone/email">`;
+  } else if(method === 'Check' || method === 'Wire Transfer' || method === 'Other'){
+    wrap.innerHTML = `<label>Notes</label><input type="text" id="f-pay-note" placeholder="${method==='Wire Transfer' ? 'e.g. reference / confirmation number' : 'e.g. check # on delivery'}">`;
+  } else {
+    wrap.innerHTML = "";
+  }
+  bindPayDetailInputs();
+}
+function bindPayDetailInputs(){
+  ['f-cardtype','f-card-last4','f-pay-handle','f-pay-note'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('input', syncBuyerFieldsToOrder);
+  });
+}
+async function syncBuyerFieldsToOrder(){
+  currentOrder.buyer = document.getElementById('f-buyer').value;
+  currentOrder.contact = document.getElementById('f-contact').value;
+  currentOrder.phone = document.getElementById('f-phone').value;
+  currentOrder.email = document.getElementById('f-email').value;
+  currentOrder.billing = document.getElementById('f-billing').value;
+  currentOrder.shipSame = document.getElementById('f-ship-same').checked;
+  currentOrder.shipping = currentOrder.shipSame ? currentOrder.billing : document.getElementById('f-shipping').value;
+  currentOrder.payMethod = document.getElementById('f-paymethod').value;
+  currentOrder.terms = document.getElementById('f-terms').value;
+  const cardType = document.getElementById('f-cardtype');
+  const cardLast4 = document.getElementById('f-card-last4');
+  const payHandle = document.getElementById('f-pay-handle');
+  const payNote = document.getElementById('f-pay-note');
+  currentOrder.payDetail = {
+    cardType: cardType ? cardType.value : "",
+    cardLast4: cardLast4 ? cardLast4.value.replace(/\D/g,'').slice(0,4) : "",
+    handle: payHandle ? payHandle.value : "",
+    note: payNote ? payNote.value : ""
+  };
+  await saveCurrentOrder();
+}
+
+['f-buyer','f-contact','f-phone','f-email','f-billing','f-shipping'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', syncBuyerFieldsToOrder);
+});
+document.getElementById('f-ship-same').addEventListener('change', (e)=>{
+  document.getElementById('shippingWrap').style.display = e.target.checked ? 'none' : 'block';
+  syncBuyerFieldsToOrder();
+});
+document.getElementById('f-paymethod').addEventListener('change', (e)=>{
+  renderPayDetail(e.target.value);
+  syncBuyerFieldsToOrder();
+});
+
+function populateBuyerFields(){
+  document.getElementById('f-buyer').value = currentOrder.buyer || "";
+  document.getElementById('f-contact').value = currentOrder.contact || "";
+  document.getElementById('f-phone').value = currentOrder.phone || "";
+  document.getElementById('f-email').value = currentOrder.email || "";
+  document.getElementById('f-billing').value = currentOrder.billing || "";
+  document.getElementById('f-ship-same').checked = !!currentOrder.shipSame;
+  document.getElementById('shippingWrap').style.display = currentOrder.shipSame ? 'none' : 'block';
+  document.getElementById('f-shipping').value = currentOrder.shipping || "";
+  document.getElementById('f-paymethod').value = currentOrder.payMethod || "";
+  document.getElementById('f-terms').value = currentOrder.terms || "";
+  renderPayDetail(currentOrder.payMethod || "");
+  if(currentOrder.payDetail){
+    const ct = document.getElementById('f-cardtype'); if(ct) ct.value = currentOrder.payDetail.cardType || "";
+    const cl = document.getElementById('f-card-last4'); if(cl) cl.value = currentOrder.payDetail.cardLast4 || "";
+    const ph = document.getElementById('f-pay-handle'); if(ph) ph.value = currentOrder.payDetail.handle || "";
+    const pn = document.getElementById('f-pay-note'); if(pn) pn.value = currentOrder.payDetail.note || "";
+  }
+}
+
+// ---------- scan ----------
+document.getElementById('btn-scan-toggle').addEventListener('click', ()=>{
+  if(scanning){ stopScanner(); } else { startScanner(); }
+});
+
+function startScanner(){
+  html5Qr = new Html5Qrcode("reader");
+  html5Qr.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 220 },
+    (decodedText)=>{ onScanSuccess(decodedText); },
+    ()=>{}
+  ).then(()=>{
+    scanning = true;
+    document.getElementById('btn-scan-toggle').textContent = "Stop camera";
+    document.getElementById('scanHint').textContent = "Point the camera at a style's QR tag.";
+  }).catch(err=>{
+    flash('scan', "Couldn't access the camera — use manual pick below instead.", true);
+    document.getElementById('scanHint').textContent = "Camera unavailable in this browser — use manual pick.";
+  });
+}
+function stopScanner(){
+  if(html5Qr){
+    html5Qr.stop().then(()=>{ html5Qr.clear(); }).catch(()=>{});
+  }
+  scanning = false;
+  document.getElementById('btn-scan-toggle').textContent = "Start camera";
+}
+
+function findPhoto(styleCode){
+  const match = catalog.find(c => c.style.trim().toLowerCase() === (styleCode||'').trim().toLowerCase());
+  return match ? match.photo : null;
+}
+
+let lastScanText = null;
+let lastScanTime = 0;
+const SCAN_COOLDOWN_MS = 2500; // ignore repeat reads of the same tag within this window
+
+function onScanSuccess(text){
+  const now = Date.now();
+  if(text === lastScanText && (now - lastScanTime) < SCAN_COOLDOWN_MS){
+    return; // same tag still in frame — ignore, don't re-trigger
+  }
+  lastScanText = text;
+  lastScanTime = now;
+  try{
+    const data = JSON.parse(text);
+    if(!data.s || !data.n || data.p===undefined) throw new Error('bad payload');
+    showScanResult({style:data.s, name:data.n, price:data.p, fabric:data.f||"", colors:data.c||[], photo: findPhoto(data.s)});
+    flash('scan', `Scanned ${data.s}.`, false);
+  }catch(e){
+    flash('scan', 'That QR code isn\'t a recognized style tag.', true);
+  }
+}
+
+document.getElementById('btn-manual-toggle').addEventListener('click', ()=>{
+  const c = document.getElementById('manualCard');
+  c.style.display = c.style.display==='none' ? 'block' : 'none';
+});
+function renderManualSelect(){
+  const sel = document.getElementById('f-manual-style');
+  sel.innerHTML = catalog.map((s,i)=>`<option value="${i}">${escapeHtml(s.style)} — ${escapeHtml(s.name)}</option>`).join('');
+}
+document.getElementById('btn-manual-pick').addEventListener('click', ()=>{
+  const i = parseInt(document.getElementById('f-manual-style').value);
+  if(isNaN(i) || !catalog[i]){ flash('scan','No styles in catalog yet.', true); return; }
+  const s = catalog[i];
+  showScanResult({style:s.style, name:s.name, price:s.price, fabric:s.fabric, colors:s.colors, photo:s.photo});
+});
+
+function showScanResult(s){
+  pendingScanStyle = s;
+  const area = document.getElementById('scanResultArea');
+  const photoHtml = s.photo ? `<img class="thumb" src="${s.photo}">` : '';
+  area.innerHTML = `
+    <div class="scanresult">
+      ${photoHtml}
+      <div class="sty">${escapeHtml(s.style)}</div>
+      <div class="nm">${escapeHtml(s.name)} — $${Number(s.price).toFixed(2)}</div>
+      <label>Color</label>
+      <select id="pick-color">${s.colors.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}</select>
+      <div class="qtyrow">
+        <button id="qty-minus" type="button">–</button>
+        <input type="number" id="pick-qty" value="1" min="1">
+        <button id="qty-plus" type="button">+</button>
+        <button class="btn small" id="btn-add-line" style="flex:1;">Add to order</button>
+      </div>
+    </div>`;
+  document.getElementById('qty-minus').addEventListener('click', ()=>{
+    const el = document.getElementById('pick-qty'); el.value = Math.max(1, parseInt(el.value||1)-1);
+  });
+  document.getElementById('qty-plus').addEventListener('click', ()=>{
+    const el = document.getElementById('pick-qty'); el.value = parseInt(el.value||1)+1;
+  });
+  document.getElementById('btn-add-line').addEventListener('click', addLineToOrder);
+}
+
+async function addLineToOrder(){
+  const btn = document.getElementById('btn-add-line');
+  if(btn.disabled) return;
+  btn.disabled = true;
+  const color = document.getElementById('pick-color').value;
+  const qty = Math.max(1, parseInt(document.getElementById('pick-qty').value || 1));
+  currentOrder.items.push({
+    style: pendingScanStyle.style, name: pendingScanStyle.name,
+    price: pendingScanStyle.price, color, qty, photo: pendingScanStyle.photo || null
+  });
+  await saveCurrentOrder();
+  renderOrder();
+  document.getElementById('scanResultArea').innerHTML = "";
+  flash('scan', `Added ${qty} × ${pendingScanStyle.style} (${color}).`, false);
+}
+
+function renderOrder(){
+  const wrap = document.getElementById('orderLines');
+  if(currentOrder.items.length===0){
+    wrap.innerHTML = `<div class="empty">No items yet — scan a tag to add one.</div>`;
+  } else {
+    wrap.innerHTML = "";
+    let total = 0;
+    currentOrder.items.forEach((it, idx)=>{
+      const lineTotal = it.price * it.qty;
+      total += lineTotal;
+      const row = document.createElement('div');
+      row.className = 'orderline';
+      const thumbHtml = it.photo ? `<img class="l-thumb" src="${it.photo}">` : '';
+      row.innerHTML = `
+        ${thumbHtml}
+        <div class="l-main">
+          <div class="l-sty">${escapeHtml(it.style)}</div>
+          <div class="l-nm">${escapeHtml(it.name)}</div>
+          <div class="l-detail">${escapeHtml(it.color)} · qty ${it.qty} · $${it.price.toFixed(2)} ea</div>
+        </div>
+        <div class="l-amt">$${lineTotal.toFixed(2)}</div>
+        <button class="l-rm" data-rm="${idx}" title="Remove">×</button>`;
+      wrap.appendChild(row);
+    });
+    document.getElementById('orderTotal').textContent = `$${total.toFixed(2)}`;
+    wrap.querySelectorAll('[data-rm]').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        currentOrder.items.splice(parseInt(b.dataset.rm),1);
+        await saveCurrentOrder();
+        renderOrder();
+      });
+    });
+  }
+  if(currentOrder.items.length===0) document.getElementById('orderTotal').textContent = "$0.00";
+}
+
+document.getElementById('btn-clear-order').addEventListener('click', async ()=>{
+  if(currentOrder.items.length===0 && !currentOrder.buyer) return;
+  if(confirm('Clear the current order? This does not delete saved orders.')){
+    currentOrder = {buyer:"", items:[]};
+    populateBuyerFields();
+    await saveCurrentOrder();
+    renderOrder();
+  }
+});
+
+document.getElementById('btn-finish-order').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btn-finish-order');
+  if(btn.disabled) return;
+  if(currentOrder.items.length===0){ flash('scan','Add at least one item before saving.', true); return; }
+  if(!currentOrder.buyer){ flash('scan','Add the buyer name before saving.', true); return; }
+  btn.disabled = true;
+  const total = currentOrder.items.reduce((sum,it)=>sum + it.price*it.qty, 0);
+  const now = new Date();
+  const poNumber = `PO-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(savedOrders.length+1).padStart(3,'0')}`;
+  savedOrders.push({
+    poNumber,
+    buyer: currentOrder.buyer,
+    contact: currentOrder.contact || "",
+    phone: currentOrder.phone || "",
+    email: currentOrder.email || "",
+    billing: currentOrder.billing || "",
+    shipping: currentOrder.shipSame ? currentOrder.billing : (currentOrder.shipping || ""),
+    payMethod: currentOrder.payMethod || "",
+    payDetail: currentOrder.payDetail || {},
+    terms: currentOrder.terms || "",
+    date: now.toISOString(),
+    items: currentOrder.items,
+    total
+  });
+  await saveOrders();
+  currentOrder = {buyer:"", items:[]};
+  await saveCurrentOrder();
+  populateBuyerFields();
+  renderOrder(); renderOrders();
+  flash('scan', 'Order saved.', false);
+  setTimeout(()=>{ btn.disabled = false; }, 1200);
+});
+
+// ---------- orders ----------
+function renderOrders(){
+  const wrap = document.getElementById('ordersList');
+  if(savedOrders.length===0){
+    wrap.innerHTML = `<div class="empty"><span class="big">No orders saved yet</span>Finished orders from the booth will appear here.</div>`;
+    return;
+  }
+  wrap.innerHTML = "";
+  savedOrders.slice().reverse().forEach((o)=>{
+    const realIdx = savedOrders.indexOf(o);
+    const div = document.createElement('div');
+    div.className = 'pastorder';
+    const d = new Date(o.date);
+    div.innerHTML = `
+      <div class="top"><span class="buyer">${escapeHtml(o.buyer)}</span><span class="amt">$${o.total.toFixed(2)}</span></div>
+      <div class="date">${escapeHtml(o.poNumber||'')} · ${d.toLocaleDateString()} · ${o.items.length} item${o.items.length!==1?'s':''}</div>
+      <div style="display:flex; gap:8px; margin-top:9px;">
+        <button class="btn secondary small" data-po="${realIdx}" style="flex:1;">Print PO</button>
+        <button class="btn danger small" data-del="${realIdx}">Delete</button>
+      </div>`;
+    div.querySelector('[data-po]').addEventListener('click', (e)=>{ e.stopPropagation(); printPO(o); });
+    div.querySelector('[data-del]').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      if(confirm(`Delete the order for ${o.buyer}?`)){
+        savedOrders.splice(realIdx,1);
+        saveOrders();
+        renderOrders();
+      }
+    });
+    wrap.appendChild(div);
+  });
+}
+
+// ---------- purchase order document ----------
+async function loadCompanyInfo(){
+  try{ const r = await window.storage.get('company_info'); return r ? JSON.parse(r.value) : {}; }catch(e){ return {}; }
+}
+function populateCompanyFields(info){
+  document.getElementById('f-co-name').value = info.name || "";
+  document.getElementById('f-co-address').value = info.address || "";
+  document.getElementById('f-co-phone').value = info.phone || "";
+  document.getElementById('f-co-email').value = info.email || "";
+  document.getElementById('f-co-website').value = info.website || "";
+}
+document.getElementById('btn-save-company').addEventListener('click', async ()=>{
+  const info = {
+    name: document.getElementById('f-co-name').value.trim(),
+    address: document.getElementById('f-co-address').value.trim(),
+    phone: document.getElementById('f-co-phone').value.trim(),
+    email: document.getElementById('f-co-email').value.trim(),
+    website: document.getElementById('f-co-website').value.trim()
+  };
+  const banner = document.getElementById('banner-company');
+  try{
+    await window.storage.set('company_info', JSON.stringify(info), false);
+    const check = await window.storage.get('company_info');
+    if(check && JSON.parse(check.value).name === info.name){
+      banner.innerHTML = `<div class="banner ok">Saved.</div>`;
+    } else {
+      banner.innerHTML = `<div class="banner err">Save didn't stick — try again.</div>`;
+    }
+  }catch(e){
+    banner.innerHTML = `<div class="banner err">Could not save — try again.</div>`;
+  }
+  setTimeout(()=>{ banner.innerHTML = ""; }, 3500);
+});
+
+async function printPO(o){
+  const info = await loadCompanyInfo();
+  const d = new Date(o.date);
+  let payLine = o.payMethod || "—";
+  if(o.payMethod === 'Credit Card' && o.payDetail){
+    payLine = `Credit Card ${o.payDetail.cardType||''} ending ${o.payDetail.cardLast4||'----'}`;
+  } else if((o.payMethod==='Venmo'||o.payMethod==='Zelle') && o.payDetail){
+    payLine = `${o.payMethod} — ${o.payDetail.handle||''}`;
+  } else if(o.payDetail && o.payDetail.note){
+    payLine = `${o.payMethod||''} — ${o.payDetail.note}`;
+  }
+  const rows = o.items.map(it=>`
+    <tr>
+      <td style="font-family:'DM Mono',monospace;">${escapeHtml(it.style)}</td>
+      <td>${escapeHtml(it.name)}</td>
+      <td>${escapeHtml(it.color)}</td>
+      <td class="num">${it.qty}</td>
+      <td class="num">$${it.price.toFixed(2)}</td>
+      <td class="num">$${(it.price*it.qty).toFixed(2)}</td>
+    </tr>`).join('');
+  const totalQty = o.items.reduce((s,it)=>s+it.qty,0);
+
+  const html = `
+    <div class="po-doc">
+      <div class="po-top">
+        <div>
+          <div class="po-brand">${escapeHtml(info.name || 'Buttercreme')}</div>
+          <div class="po-co-detail">${escapeHtml(info.address||'')}${info.phone?`\n${escapeHtml(info.phone)}`:''}${info.email?`  ${escapeHtml(info.email)}`:''}${info.website?`  ${escapeHtml(info.website)}`:''}</div>
+        </div>
+        <div class="po-title">
+          <div class="t">Purchase Order</div>
+          <div class="n">${escapeHtml(o.poNumber||'')}</div>
+          <div class="d">${d.toLocaleDateString()}</div>
+        </div>
+      </div>
+      <div class="po-parties">
+        <div class="po-party">
+          <h4>Bill To</h4>
+          <div>${escapeHtml(o.buyer)}${o.contact?`\n${escapeHtml(o.contact)}`:''}${o.phone?`\n${escapeHtml(o.phone)}`:''}${o.email?`\n${escapeHtml(o.email)}`:''}${o.billing?`\n${escapeHtml(o.billing)}`:''}</div>
+        </div>
+        <div class="po-party">
+          <h4>Ship To</h4>
+          <div>${escapeHtml(o.shipping || o.billing || '—')}</div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Style #</th><th>Description</th><th>Color</th><th class="num">Qty</th><th class="num">Unit Price</th><th class="num">Total</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="po-totals">
+        <div class="box">
+          <div class="row2"><span>Total units</span><span>${totalQty}</span></div>
+          <div class="row2 grand"><span>Total</span><span>$${o.total.toFixed(2)}</span></div>
+        </div>
+      </div>
+      <div class="po-terms">
+        <div><b>Payment terms:</b> ${escapeHtml(o.terms || '—')}</div>
+        <div><b>Payment method:</b> ${escapeHtml(payLine)}</div>
+      </div>
+    </div>`;
+  const area = document.getElementById('tagPrintArea');
+  area.innerHTML = html;
+  setTimeout(()=>window.print(), 200);
+}
+
+document.getElementById('btn-export-csv').addEventListener('click', ()=>{
+  if(savedOrders.length===0){ flash('orders','No orders to export yet.', true); return; }
+  let csv = "PO Number,Buyer,Contact,Phone,Email,Billing,Shipping,Payment Method,Payment Detail,Terms,Date,Style,Name,Color,Qty,Unit Price,Line Total,Order Total\n";
+  savedOrders.forEach(o=>{
+    const d = new Date(o.date).toLocaleDateString();
+    let payDetailStr = "";
+    if(o.payMethod === 'Credit Card' && o.payDetail){ payDetailStr = `${o.payDetail.cardType||''} ****${o.payDetail.cardLast4||''}`; }
+    else if((o.payMethod==='Venmo'||o.payMethod==='Zelle') && o.payDetail){ payDetailStr = o.payDetail.handle||''; }
+    else if(o.payDetail && o.payDetail.note){ payDetailStr = o.payDetail.note; }
+    const esc = (s)=>`"${String(s||'').replace(/"/g,'""')}"`;
+    o.items.forEach(it=>{
+      const lineTotal = (it.price*it.qty).toFixed(2);
+      csv += [esc(o.poNumber), esc(o.buyer), esc(o.contact), esc(o.phone), esc(o.email), esc(o.billing), esc(o.shipping), esc(o.payMethod), esc(payDetailStr), esc(o.terms), d, it.style, esc(it.name), it.color, it.qty, it.price.toFixed(2), lineTotal, o.total.toFixed(2)].join(',') + "\n";
+    });
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `buttercreme_orders_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+loadAll();
+})();
+</script>
+</body>
+</html>
