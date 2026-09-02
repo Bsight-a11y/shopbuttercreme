@@ -481,6 +481,16 @@ footer{
   </div>
 </div>
 
+<div class="promo-overlay" id="tradeshowOverlay">
+  <div class="promo-box">
+    <button class="promo-close" onclick="closeTradeshow()">&times;</button>
+    <p class="promo-eyebrow">See Us In Person</p>
+    <p class="promo-headline">Meet Us at<br>Cali Gift Show</p>
+    <p class="promo-sub">Booth #5 · La Quinta Embassy Suites<br>September 9–10, 2026</p>
+    <button class="promo-btn" onclick="closeTradeshow()">Got It</button>
+  </div>
+</div>
+
 <script>
 // PROMO_ENABLED: set to true when ready to launch this promotion
 const PROMO_ENABLED = false;
@@ -497,6 +507,21 @@ function closePromo(claimed) {
   if (claimed) {
     localStorage.setItem('promoClaimed', 'true');
   }
+}
+
+// TRADESHOW_ENABLED: set to false after 9/10/2026 or once the show has passed
+const TRADESHOW_ENABLED = true;
+
+(function(){
+  if (TRADESHOW_ENABLED && !localStorage.getItem('tradeshowSeen')) {
+    window.addEventListener('DOMContentLoaded', function(){
+      document.getElementById('tradeshowOverlay').classList.add('open');
+    });
+  }
+})();
+function closeTradeshow() {
+  document.getElementById('tradeshowOverlay').classList.remove('open');
+  localStorage.setItem('tradeshowSeen', 'true');
 }
 </script>
 
