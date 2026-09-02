@@ -489,7 +489,7 @@ function closePromo(claimed) {
   </button>
   <a class="nav-logo-wrap" href="#">
     <span class="nav-logo">Buttercreme</span>
-    <span class="nav-logo-sub">Sleep Studios</span>
+    <span class="nav-logo-sub">Studios</span>
   </a>
   <div class="nav-right"></div>
 </nav>
@@ -500,6 +500,7 @@ function closePromo(claimed) {
     <a href="#" class="menu-item" data-modal="pajamaModal" onclick="return openModalFromMenu(this);">Sleepwear</a>
     <a href="#" class="menu-item" data-modal="dressModal2" onclick="return openModalFromMenu(this);">Dresses</a>
     <a href="#" class="menu-item" data-modal="topsModalV2" onclick="return openModalFromMenu(this);">Tops</a>
+    <a href="#" class="menu-item" data-modal="setsModal" onclick="return openModalFromMenu(this);">Sets</a>
   </div>
 </div>
 
@@ -543,6 +544,7 @@ document.addEventListener('keydown', function(e) {
     <button type="button" class="intro-tag-pill" data-modal="pajamaModal" onclick="openOnlyModal(this.dataset.modal)">Sleepwear</button>
     <button type="button" class="intro-tag-pill" data-modal="dressModal2" onclick="openOnlyModal(this.dataset.modal)">Dresses</button>
     <button type="button" class="intro-tag-pill" data-modal="topsModalV2" onclick="openOnlyModal(this.dataset.modal)">Tops</button>
+    <button type="button" class="intro-tag-pill" data-modal="setsModal" onclick="openOnlyModal(this.dataset.modal)">Sets</button>
   </div>
   <p class="intro-sub">From our Sleep Studio — sleepwear and dresses designed for the quiet luxury of comfort.</p>
 </section>
@@ -609,7 +611,7 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
 <footer>
   <span class="footer-left-wrap">
     <span class="footer-left">Buttercreme</span>
-    <span class="footer-left-sub">Sleep Studios</span>
+    <span class="footer-left-sub">Studios</span>
   </span>
   <span class="footer-right">
     <a href="mailto:info@shopbuttercreme.com" style="text-decoration:none;color:inherit">info@shopbuttercreme.com</a>
@@ -620,19 +622,6 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
         <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
       </svg>
       Instagram
-    </a>
-    <a href="https://www.tiktok.com/@shopbuttercreme" class="footer-ig" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.5 2h-3v13.2c0 1.5-1.2 2.7-2.7 2.7-1.5 0-2.7-1.2-2.7-2.7 0-1.5 1.2-2.7 2.7-2.7.3 0 .6 0 .9.1V9.5c-.3 0-.6-.1-.9-.1-3 0-5.4 2.4-5.4 5.4S8.3 20.2 11.3 20.2s5.4-2.4 5.4-5.4V8.3c1.1.9 2.5 1.4 4 1.4V6.7c-1.9 0-3.5-1-4.2-2.6V2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-      </svg>
-      TikTok
-    </a>
-    <a href="https://www.pinterest.com/bsight1226/?actingBusinessId=784541334995449065" class="footer-ig" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M9.5 18c.6-2 1.2-4.6 1.8-7.1.3-1.3 1.5-2.2 2.8-2 1.3.2 2.1 1.4 1.8 2.7-.3 1.4-.7 3-1.1 4.1-.4 1.1.3 2.2 1.5 2.1 1.9-.2 3.3-2.1 3.3-4.6 0-2.9-2.4-5.2-5.7-5.2-3.9 0-6 2.8-6 5.7 0 1.2.4 2.1 1 2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      Pinterest
     </a>
     <a href="privacy.html" style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#8c8475;text-decoration:none;font-family:var(--ff-sans)">Privacy Policy</a>
   </span>
@@ -709,6 +698,15 @@ document.getElementById('signupEmail').addEventListener('keydown', function(e){
       <div class="tops-card"><img src="/images/topFresh9.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
       <div class="tops-card"><img src="/images/topFresh11.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
       <div class="tops-card"><img src="/images/topFresh12.jpg" alt="Buttercreme Tops Style" style="display:block;width:100%;height:auto;border-radius:8px;" onclick="openLightbox(this.src)"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="setsModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('setsModal').classList.remove('open')">&times;</button>
+    <div class="sets-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;width:100%;">
+      <p style="grid-column:1/-1;text-align:center;color:#8c8475;font-family:var(--ff-sans);padding:40px 0;">New sets coming soon.</p>
     </div>
   </div>
 </div>
